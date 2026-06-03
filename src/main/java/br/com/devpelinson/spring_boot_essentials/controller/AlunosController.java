@@ -9,6 +9,7 @@ import br.com.devpelinson.spring_boot_essentials.service.AlunosService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,7 @@ public class AlunosController {
         return alunosService.findAll();
     }
 
+    @PreAuthorize("#alunoId == authentication.principal.id or hasRole('ADMIN')")
     @GetMapping("/{alunoId}/avaliacao")
     @ResponseStatus(HttpStatus.OK)
     public AvaliacoesFisicasEntity getAvaliacaoFisica(@PathVariable Integer alunoId) throws NotFoundException {
